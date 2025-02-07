@@ -142,15 +142,13 @@ function handleDisplayChange(element, searchKeyword) {
   // Encrypt and update the URL parameter for 'mode'
   updateUrlParameter("mode", displayMode);
 
-  let [all_tag_id, ob46_tag_id, ob47_tag_id, trashItem_btn] = [
+  let [all_tag_id, trashItem_btn] = [
     "AllItem_btn",
-    "Ob46Item_btn",
-    "Ob47Item_btn",
     "trashItem_btn",
   ].map((id) => document.getElementById(id));
   // Common UI elements for mode switching
   const uiElements = {
-    tags: [ob46_tag_id, ob47_tag_id, all_tag_id, trashItem_btn],
+    tags: [all_tag_id, trashItem_btn],
     webpGallery: document.getElementById("webpGallery"),
   };
 
@@ -166,33 +164,22 @@ function handleDisplayChange(element, searchKeyword) {
   searchKeyword = searchKeyword === null ? "" : searchKeyword;
   switch (displayMode) {
     case "1":
-      addClassesList([ob46_tag_id, ob47_tag_id, all_tag_id], "Mtext-color2");
+      addClassesList([all_tag_id], "Mtext-color2");
       addClasses(element, "Mtext-color", "Mbg-color");
       displayFilteredTrashItems(1, searchKeyword, pngs_json_list);
       itemID.state.displayMode = 1;
       break;
 
     case "2":
-      addClassesList([ob46_tag_id, ob47_tag_id, trashItem_btn], "Mtext-color2");
+      addClassesList([trashItem_btn], "Mtext-color2");
       addClasses(element, "Mtext-color", "Mbg-color");
       displayPage(1, searchKeyword, itemData);
       itemID.state.displayMode = 2;
       break;
 
-    case "3":
-      addClassesList([all_tag_id, ob47_tag_id, trashItem_btn], "Mtext-color2");
-      addClasses(element, "Mtext-color", "Mbg-color");
-      displayPage(1, searchKeyword, gl_ob46_added_itemData);
-      itemID.state.displayMode = 3;
-      break;
-
-    case "4":
-      addClassesList([ob46_tag_id, all_tag_id, trashItem_btn], "Mtext-color2");
-      addClasses(element, "Mtext-color", "Mbg-color");
-      displayPage(1, searchKeyword, gl_ob47_added_itemData);
-      itemID.state.displayMode = 4;
-      break;
-
+    
+      
+      
     default:
       console.warn(`Unsupported display mode: ${displayMode}`);
       return; // Exit if the mode is invalid
@@ -682,6 +669,27 @@ function updateUrl() {
 }
 
 /**
+ * Filters an array of objects based on a search term.
+ *
+ * @param {Array<Object>} items - The list of objects to search through.
+ * @param {string} searchTerm - The term to match against object values.
+ * @returns {Array<Object>} - Filtered list of objects.
+ */
+function filterItemsBySearch(items, searchTerm) {
+  if (!Array.isArray(items) || typeof searchTerm !== "string") return [];
+
+  const lowerSearch = searchTerm.trim().toLowerCase();
+  if (!lowerSearch) return items; // Return all if search term is empty
+
+  return items.filter(item =>
+    Object.values(item).some(value =>
+      value != null && String(value).toLowerCase().includes(lowerSearch)
+    )
+  );
+}
+
+
+/**
  * Checks URL parameters for a search keyword and display mode, then updates the UI accordingly.
  */
 function handleDisplayBasedOnURL() {
@@ -697,8 +705,6 @@ function handleDisplayBasedOnURL() {
   const buttonMap = {
     1: "trashItem_btn",
     2: "AllItem_btn",
-    3: "Ob46Item_btn",
-    4: "Ob47Item_btn",
   };
 
   // Determine the button to show based on the display mode or fallback to 'AllItem_btn'
