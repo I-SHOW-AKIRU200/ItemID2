@@ -12,24 +12,19 @@ Promise.all([
   // Fetching 'itemData.json' and parsing it as JSON
   fetch("assets/itemData.json").then((response) => response.json()),
   // Fetching 'ob47_added_itemData.json' and parsing it as JSON
-  fetch("assets/ob47_added_itemData.json").then((response) => response.json()),
-
-  fetch("assets/ob46_added_itemData.json").then((response) => response.json()),
 ])
   .then(
     ([
       cdnData,
       pngsData,
       itemDatar,
-      ob47_added_itemData,
-      ob46_added_itemData,
+      
     ]) => {
       // Assign the fetched data to global variables for further use
       cdn_img_json = cdnData.reduce((map, obj) => Object.assign(map, obj), {});
       pngs_json_list = pngsData; // Contains data from 'pngs.json'
       itemData = itemDatar; // Contains data from 'itemData.json'
-      gl_ob47_added_itemData = ob47_added_itemData; // Contains data from 'ob47_added_itemData.json'
-      gl_ob46_added_itemData = ob46_added_itemData;
+      
       handleDisplayBasedOnURL();
     },
   )
@@ -77,14 +72,6 @@ function Share_tg() {
 function filterWebpsBySearch(webps, searchTerm) {
   return webps.filter((webp) =>
     webp.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-}
-
-function filterItemsBySearch(items, searchTerm) {
-  return items.filter((item) =>
-    Object.keys(item).some((key) =>
-      item[key].toString().toLowerCase().includes(searchTerm.toLowerCase()),
-    ),
   );
 }
 
