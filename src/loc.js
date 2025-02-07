@@ -22,11 +22,8 @@ const itemID = {
     displayMode: 2, // Default Mode: ALL
   },
 };
-
 let current_data;
 let itemData;
-let gl_ob47_added_itemData;
-let gl_ob46_added_itemData;
 let currentPage = 1;
 let cdn_img_json;
 let pngs_json_list;
