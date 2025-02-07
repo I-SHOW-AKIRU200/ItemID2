@@ -142,10 +142,9 @@ function handleDisplayChange(element, searchKeyword) {
   // Encrypt and update the URL parameter for 'mode'
   updateUrlParameter("mode", displayMode);
 
-  let [all_tag_id, trashItem_btn] = [
-    "AllItem_btn",
-    "trashItem_btn",
-  ].map((id) => document.getElementById(id));
+  let [all_tag_id, trashItem_btn] = ["AllItem_btn", "trashItem_btn"].map((id) =>
+    document.getElementById(id),
+  );
   // Common UI elements for mode switching
   const uiElements = {
     tags: [all_tag_id, trashItem_btn],
@@ -177,9 +176,6 @@ function handleDisplayChange(element, searchKeyword) {
       itemID.state.displayMode = 2;
       break;
 
-    
-      
-      
     default:
       console.warn(`Unsupported display mode: ${displayMode}`);
       return; // Exit if the mode is invalid
@@ -681,13 +677,13 @@ function filterItemsBySearch(items, searchTerm) {
   const lowerSearch = searchTerm.trim().toLowerCase();
   if (!lowerSearch) return items; // Return all if search term is empty
 
-  return items.filter(item =>
-    Object.values(item).some(value =>
-      value != null && String(value).toLowerCase().includes(lowerSearch)
-    )
+  return items.filter((item) =>
+    Object.values(item).some(
+      (value) =>
+        value != null && String(value).toLowerCase().includes(lowerSearch),
+    ),
   );
 }
-
 
 /**
  * Checks URL parameters for a search keyword and display mode, then updates the UI accordingly.

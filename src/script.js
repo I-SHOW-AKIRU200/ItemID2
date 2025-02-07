@@ -13,21 +13,14 @@ Promise.all([
   fetch("assets/itemData.json").then((response) => response.json()),
   // Fetching 'ob47_added_itemData.json' and parsing it as JSON
 ])
-  .then(
-    ([
-      cdnData,
-      pngsData,
-      itemDatar,
-      
-    ]) => {
-      // Assign the fetched data to global variables for further use
-      cdn_img_json = cdnData.reduce((map, obj) => Object.assign(map, obj), {});
-      pngs_json_list = pngsData; // Contains data from 'pngs.json'
-      itemData = itemDatar; // Contains data from 'itemData.json'
-      
-      handleDisplayBasedOnURL();
-    },
-  )
+  .then(([cdnData, pngsData, itemDatar]) => {
+    // Assign the fetched data to global variables for further use
+    cdn_img_json = cdnData.reduce((map, obj) => Object.assign(map, obj), {});
+    pngs_json_list = pngsData; // Contains data from 'pngs.json'
+    itemData = itemDatar; // Contains data from 'itemData.json'
+
+    handleDisplayBasedOnURL();
+  })
   .catch((error) => {
     // Log any errors encountered during the fetch or processing
     console.error("Error fetching data:", error);
